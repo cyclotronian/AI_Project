@@ -139,8 +139,8 @@ def get_iterator(src_dataset,
   # Create a tgt_input prefixed with <sos> and a tgt_output suffixed with <eos>.
   src_tgt_dataset = src_tgt_dataset.map(
       lambda src, tgt: (src,
-                        tf.concat(([tf.cast(tgt_vocab_table.lookup(tf.constant(tgt[0])), tf.int32)], tgt[1:]), 0),
-                        tf.concat((tgt, [tgt_eos_id]), 0)),
+                        tf.concat(([tgt[0]], tgt[1:]), 0),
+                        tf.concat((tgt[1:], [tgt_eos_id]), 0)),
       num_parallel_calls=num_parallel_calls).prefetch(output_buffer_size)
   # Add in sequence lengths.
   src_tgt_dataset = src_tgt_dataset.map(
