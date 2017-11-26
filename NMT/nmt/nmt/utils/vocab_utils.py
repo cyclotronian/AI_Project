@@ -29,6 +29,7 @@ from ..utils import misc_utils as utils
 
 
 UNK = "<unk>"
+FRIENDS = ["<joey>", "<chandler>", "<rachel>", "<ross>", "<pheobe>", "<monica>"]
 SOS = "<s>"
 EOS = "</s>"
 UNK_ID = 0
@@ -56,7 +57,7 @@ def check_vocab(vocab_file, out_dir, check_special_token=True, sos=None,
         utils.print_out("The first 3 vocab words [%s, %s, %s]"
                         " are not [%s, %s, %s]" %
                         (vocab[0], vocab[1], vocab[2], unk, sos, eos))
-        vocab = [unk, sos, eos] + vocab
+        vocab = [unk, sos, eos] + FRIENDS + vocab
         vocab_size += 3
         new_vocab_file = os.path.join(out_dir, os.path.basename(vocab_file))
         with codecs.getwriter("utf-8")(

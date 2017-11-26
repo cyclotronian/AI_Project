@@ -469,6 +469,7 @@ class BaseModel(object):
   def _compute_loss(self, logits):
     """Compute optimization loss."""
     target_output = self.iterator.target_output
+    # input('hello')
     if self.time_major:
       target_output = tf.transpose(target_output)
     max_time = self.get_max_time(target_output)
