@@ -57,6 +57,7 @@ def create_test_hparams(unit_type="lstm",
       # Attention mechanisms
       attention=attention,
       attention_architecture=attention_architecture,
+      output_attention=True,
       pass_hidden_state=True,
 
       # Train
@@ -94,6 +95,10 @@ def create_test_hparams(unit_type="lstm",
       tgt_vocab_size=5,
       eos="eos",
       sos="sos",
+      src_vocab_file="",
+      tgt_vocab_file="",
+      src_embed_file="",
+      tgt_embed_file="",
 
       # For inference.py test
       source_reverse=False,

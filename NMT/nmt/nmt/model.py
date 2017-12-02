@@ -83,7 +83,6 @@ class BaseModel(object):
     tf.get_variable_scope().set_initializer(initializer)
 
     # Embeddings
-    # TODO(ebrevdo): Only do this if the mode is TRAIN?
     self.init_embeddings(hparams, scope)
     self.batch_size = tf.size(self.iterator.source_sequence_length)
 
@@ -138,17 +137,18 @@ class BaseModel(object):
           params,
           colocate_gradients_with_ops=hparams.colocate_gradients_with_ops)
 
-      clipped_gradients, gradient_norm_summary = model_helper.gradient_clip(
+      clipped_grads, grad_norm_summary, grad_norm = model_helper.gradient_clip(
           gradients, max_gradient_norm=hparams.max_gradient_norm)
+      self.grad_norm = grad_norm
 
       self.update = opt.apply_gradients(
-          zip(clipped_gradients, params), global_step=self.global_step)
+          zip(clipped_grads, params), global_step=self.global_step)
 
       # Summary
       self.train_summary = tf.summary.merge([
           tf.summary.scalar("lr", self.learning_rate),
           tf.summary.scalar("train_loss", self.train_loss),
-      ] + gradient_norm_summary)
+      ] + grad_norm_summary)
 
     if self.mode == tf.contrib.learn.ModeKeys.INFER:
       self.infer_summary = self._get_infer_summary(hparams)
@@ -189,19 +189,26 @@ class BaseModel(object):
 
   def _get_learning_rate_decay(self, hparams):
     """Get learning rate decay."""
-    if (hparams.learning_rate_decay_scheme and
-        hparams.learning_rate_decay_scheme == "luong"):
-      start_decay_step = int(hparams.num_train_steps / 2)
-      decay_steps = int(hparams.num_train_steps / 10)  # decay 5 times
+    if hparams.learning_rate_decay_scheme in ["luong", "luong10"]:
+      start_factor = 2
+      start_decay_step = int(hparams.num_train_steps / start_factor)
       decay_factor = 0.5
+
+      # decay 5 times
+      if hparams.learning_rate_decay_scheme == "luong":
+        decay_steps = int(hparams.num_train_steps / (5 * start_factor))
+      # decay 10 times
+      elif hparams.learning_rate_decay_scheme == "luong10":
+        decay_steps = int(hparams.num_train_steps / (10 * start_factor))
     else:
       start_decay_step = hparams.start_decay_step
       decay_steps = hparams.decay_steps
       decay_factor = hparams.decay_factor
-    print("  decay_scheme=%s, start_decay_step=%d, decay_steps %d, "
-          "decay_factor %g" %
-          (hparams.learning_rate_decay_scheme,
-           hparams.start_decay_step, hparams.decay_steps, hparams.decay_factor))
+    utils.print_out("  decay_scheme=%s, start_decay_step=%d, decay_steps %d, "
+                    "decay_factor %g" % (hparams.learning_rate_decay_scheme,
+                                         hparams.start_decay_step,
+                                         hparams.decay_steps,
+                                         hparams.decay_factor))
 
     return tf.cond(
         self.global_step < start_decay_step,
@@ -222,6 +229,10 @@ class BaseModel(object):
             src_embed_size=hparams.num_units,
             tgt_embed_size=hparams.num_units,
             num_partitions=hparams.num_embeddings_partitions,
+            src_vocab_file=hparams.src_vocab_file,
+            tgt_vocab_file=hparams.tgt_vocab_file,
+            src_embed_file=hparams.src_embed_file,
+            tgt_embed_file=hparams.tgt_embed_file,
             scope=scope,))
 
   def train(self, sess):
@@ -232,7 +243,9 @@ class BaseModel(object):
                      self.train_summary,
                      self.global_step,
                      self.word_count,
-                     self.batch_size])
+                     self.batch_size,
+                     self.grad_norm,
+                     self.learning_rate])
 
   def eval(self, sess):
     assert self.mode == tf.contrib.learn.ModeKeys.EVAL
@@ -339,6 +352,8 @@ class BaseModel(object):
     """
     inf_sos_id = tf.cast(self.tgt_vocab_table.lookup(tf.constant(hparams.infer_sos)),
                          tf.int32)
+    # inf_sos_id = tf.cast(self.tgt_vocab_table.lookup(tf.constant("<ross>")),
+                         # tf.int32)
     tgt_sos_id = tf.cast(self.tgt_vocab_table.lookup(tf.constant(hparams.sos)),
                          tf.int32)
     tgt_eos_id = tf.cast(self.tgt_vocab_table.lookup(tf.constant(hparams.eos)),
@@ -469,7 +484,6 @@ class BaseModel(object):
   def _compute_loss(self, logits):
     """Compute optimization loss."""
     target_output = self.iterator.target_output
-    # input('hello')
     if self.time_major:
       target_output = tf.transpose(target_output)
     max_time = self.get_max_time(target_output)
@@ -505,9 +519,13 @@ class BaseModel(object):
     """
     _, infer_summary, _, sample_words = self.infer(sess)
 
-    # make sure outputs is of shape [batch_size, time]
+    # make sure outputs is of shape [batch_size, time] or [beam_width,
+    # batch_size, time] when using beam search.
     if self.time_major:
       sample_words = sample_words.transpose()
+    elif sample_words.ndim == 3:  # beam search output in [batch_size,
+                                  # time, beam_width] shape.
+      sample_words = sample_words.transpose([2, 0, 1])
     return sample_words, infer_summary
 
 

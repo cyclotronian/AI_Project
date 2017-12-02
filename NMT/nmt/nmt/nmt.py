@@ -76,6 +76,14 @@ def add_arguments(parser):
           attention.\
       """)
   parser.add_argument(
+      "--output_attention", type="bool", nargs="?", const=True,
+      default=True,
+      help="""\
+      Only used in standard attention_architecture. Whether use attention as
+      the cell output at each timestep.
+      .\
+      """)
+  parser.add_argument(
       "--pass_hidden_state", type="bool", nargs="?", const=True,
       default=True,
       help="""\
@@ -105,7 +113,8 @@ def add_arguments(parser):
       If specified, overwrite start_decay_step, decay_steps, decay_factor.
       Options include:
         luong: after 1/2 num train steps, we start halving the learning rate
-        for 5 times before finishing.\
+        for 5 times before finishing.
+        luong10: same as luong but halve the learning rate 10 times instead.\
       """)
 
   parser.add_argument(
@@ -139,13 +148,16 @@ def add_arguments(parser):
 
   # Vocab
   parser.add_argument("--vocab_prefix", type=str, default=None, help="""\
-      Vocab prefix, expect files with src/tgt suffixes.If None, extract from
-      train files.\
+      Vocab prefix, expect files with src/tgt suffixes.\
+      """)
+  parser.add_argument("--embed_prefix", type=str, default=None, help="""\
+      Pretrained embedding prefix, expect files with src/tgt suffixes.
+      The embedding files should be Glove formated txt files.\
       """)
   parser.add_argument("--sos", type=str, default="<s>",
                       help="Start-of-sentence symbol.")
   parser.add_argument("--infer_sos", type=str, default="<s>",
-                      help="Start-of-sentence symbol for inference.")
+                      help="Start-of-sentence symbol for inference.")                      
   parser.add_argument("--eos", type=str, default="</s>",
                       help="End-of-sentence symbol.")
   parser.add_argument("--share_vocab", type="bool", nargs="?", const=True,
@@ -271,6 +283,7 @@ def create_hparams(flags):
       dev_prefix=flags.dev_prefix,
       test_prefix=flags.test_prefix,
       vocab_prefix=flags.vocab_prefix,
+      embed_prefix=flags.embed_prefix,
       out_dir=flags.out_dir,
 
       # Networks
@@ -286,6 +299,7 @@ def create_hparams(flags):
       # Attention mechanisms
       attention=flags.attention,
       attention_architecture=flags.attention_architecture,
+      output_attention=flags.output_attention,
       pass_hidden_state=flags.pass_hidden_state,
 
       # Train
@@ -410,6 +424,20 @@ def extend_hparams(hparams):
   hparams.add_hparam("tgt_vocab_size", tgt_vocab_size)
   hparams.add_hparam("src_vocab_file", src_vocab_file)
   hparams.add_hparam("tgt_vocab_file", tgt_vocab_file)
+
+  # Pretrained Embeddings:
+  hparams.add_hparam("src_embed_file", "")
+  hparams.add_hparam("tgt_embed_file", "")
+  if hparams.embed_prefix:
+    src_embed_file = hparams.embed_prefix + "." + hparams.src
+    tgt_embed_file = hparams.embed_prefix + "." + hparams.tgt
+
+    if tf.gfile.Exists(src_embed_file):
+      hparams.src_embed_file = src_embed_file
+
+    if tf.gfile.Exists(tgt_embed_file):
+      hparams.tgt_embed_file = tgt_embed_file
+
 
   # Check out_dir
   if not tf.gfile.Exists(hparams.out_dir):

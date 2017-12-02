@@ -29,6 +29,7 @@ import tensorflow as tf
 
 
 def check_tensorflow_version():
+  # min_tf_version = "1.4.0-dev20171024"
   min_tf_version = "1.4.0"
   if tf.__version__ < min_tf_version:
     raise EnvironmentError("Tensorflow version must >= %s" % min_tf_version)
@@ -71,8 +72,9 @@ def print_out(s, f=None, new_line=True):
   sys.stdout.flush()
 
 
-def print_hparams(hparams, skip_patterns=None):
+def print_hparams(hparams, skip_patterns=None, header=None):
   """Print hparams, can skip keys based on pattern."""
+  if header: print_out("%s" % header)
   values = hparams.values()
   for key in sorted(values.keys()):
     if not skip_patterns or all(
