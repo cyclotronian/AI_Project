@@ -350,11 +350,10 @@ class BaseModel(object):
       A tuple of final logits and final decoder state:
         logits: size [time, batch_size, vocab_size] when time_major=True.
     """
-    print('i am here1')
-    # inf_sos_id = tf.cast(self.tgt_vocab_table.lookup(tf.constant(hparams.infer_sos)),
-                         # tf.int32)
-    inf_sos_id = tf.cast(self.tgt_vocab_table.lookup(tf.constant("<ross>")),
+    inf_sos_id = tf.cast(self.tgt_vocab_table.lookup(tf.constant(hparams.infer_sos)),
                          tf.int32)
+    # inf_sos_id = tf.cast(self.tgt_vocab_table.lookup(tf.constant("<ross>")),
+                         # tf.int32)
     tgt_sos_id = tf.cast(self.tgt_vocab_table.lookup(tf.constant(hparams.sos)),
                          tf.int32)
     tgt_eos_id = tf.cast(self.tgt_vocab_table.lookup(tf.constant(hparams.eos)),
@@ -422,7 +421,6 @@ class BaseModel(object):
         end_token = tgt_eos_id
 
         if beam_width > 0:
-          print('i am here')
           my_decoder = tf.contrib.seq2seq.BeamSearchDecoder(
               cell=cell,
               embedding=self.embedding_decoder,

@@ -76,7 +76,7 @@ with open('movie_lines.txt','r') as file:
 		
 		if sentence=='': continue
 
-		print (sentence, file=train_resp)
+		print ("<s> "+sentence, file=train_resp)
 		# print (sentence, file=train_utt)
 	
 		# sentence = [s for s in sentence if s.lower() not in hello_dic]
