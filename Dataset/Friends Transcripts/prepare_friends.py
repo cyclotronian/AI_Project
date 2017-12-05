@@ -99,66 +99,6 @@ with open('temp_temp.utt','r') as file:
 		if line_ctr not in remove_lines:
 			print (line[:-1], file = train_utt)
 
-
-
-
-# with open('friends_processed.txt','r') as file:
-# 	for i,line in enumerate(file):
-# 		if i == num_line-1: continue
-
-# 		a = line[:-1].split('+++$+++')
-# 		sentence = a[-1][1:].lower()
-
-# 		sentence = unicode(sentence, errors='ignore')
-
-# 		for key in punctuation:
-# 			sentence = sentence.replace(key,punctuation[key])
-		
-# 		if sentence=='': continue
-
-# 		print (sentence, file=train_utt)
-# 		# print (sentence, file=train_resp)
-
-# 		# sentence = [s for s in sentence if s.lower() not in hello_dic]
-# 		# for punct in punctuation:
-# 		# 	sentence = sentence.replace(punct,'')
-
-# 		for word in sentence.split(' '):
-# 			if word == '': continue
-# 			if word not in vocab:
-# 				vocab[word] = 0
-# 			else:
-# 				vocab[word] += 1
-
-# with open('friends_processed.txt','r') as file:
-# 	for i,line in enumerate(file):
-# 		if i == 0: continue
-
-# 		a = line[:-1].split('+++$+++')
-# 		sentence = a[-1][1:].lower()
-
-# 		sentence = unicode(sentence, errors='ignore')
-
-# 		for key in punctuation:
-# 			sentence = sentence.replace(key,punctuation[key])
-		
-# 		if sentence=='': continue
-
-# 		print (sentence, file=train_resp)
-# 		# print (sentence, file=train_utt)
-	
-# 		# sentence = [s for s in sentence if s.lower() not in hello_dic]
-# 		# for punct in punctuation:
-# 		# 	sentence = sentence.replace(punct,'')
-
-# 		for word in sentence.split(' '):
-# 			if word == '': continue
-# 			if word not in vocab:
-# 				vocab[word] = 0
-# 			else:
-# 				vocab[word] += 1
-
-
 vocab_file = open('vocab','w')
 
 sorted_x = sorted(vocab.items(), key = operator.itemgetter(1), reverse = True)
