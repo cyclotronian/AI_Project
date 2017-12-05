@@ -11,12 +11,15 @@ See readme.md for instruction on how to run the starter code.
 """
 
 # parameters for processing the dataset
-DATA_PATH = '/Users/Aviral/Documents/CMU/Courses/15-681 AI Planning /AI_Project/Dataset/cornell movie-dialogs corpus'
+DATA_PATH = '/mnt/c/Users/Mohit/Documents/CMU COURSES/Fall 2017/15-681/Finalproject/mnt/main/AI_Project/Dataset/cornell movie-dialogs corpus'
 CONVO_FILE = 'movie_conversations.txt'
 LINE_FILE = 'movie_lines.txt'
 OUTPUT_FILE = 'output_convo.txt'
 PROCESSED_PATH = 'processed'
 CPT_PATH = 'checkpoints'
+SMALL_DATASET_PATH = 'small_dataset'
+SMALL_DATASET_SIZE = 30000
+SMALL_DATASET_TESTSET_SIZE = 10000
 
 THRESHOLD = 2
 
@@ -25,7 +28,7 @@ UNK_ID = 1
 START_ID = 2
 EOS_ID = 3
 
-TESTSET_SIZE = 25000
+TESTSET_SIZE = 44000
 
 # model parameters
 """ Train encoder length distribution:
@@ -52,5 +55,8 @@ BATCH_SIZE = 64
 LR = 0.5
 MAX_GRAD_NORM = 5.0
 
-NUM_SAMPLES = 512ENC_VOCAB = 24434
-DEC_VOCAB = 24674
+NUM_SAMPLES = 512
+DEC_VOCAB = 19397
+DEC_VOCAB = 8915
+DEC_VOCAB = 18613
+DEC_VOCAB = 8300

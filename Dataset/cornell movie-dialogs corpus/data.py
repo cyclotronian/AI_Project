@@ -51,10 +51,15 @@ def get_convos():
 def question_answers(id2line, convos):
     """ Divide the dataset into two sets: questions and answers. """
     questions, answers = [], []
+    # for convo in convos:
+        # for index, line in enumerate(convo[:-1]):
+            # questions.append(id2line[convo[index]])
+            # answers.append(id2line[convo[index + 1]])
     for convo in convos:
         for index, line in enumerate(convo[:-1]):
-            questions.append(id2line[convo[index]])
-            answers.append(id2line[convo[index + 1]])
+            if (index%2)==0:
+                questions.append(id2line[convo[index]])
+                answers.append('<s> '+id2line[convo[index + 1]])
     assert len(questions) == len(answers)
     return questions, answers
 
@@ -63,20 +68,53 @@ def prepare_dataset(questions, answers):
     make_dir(config.PROCESSED_PATH)
     
     # random convos to create the test set
-    test_ids = random.sample([i for i in range(len(questions))],config.TESTSET_SIZE)
-    
-    filenames = ['train.enc', 'train.dec', 'test.enc', 'test.dec']
+    dev_test_ids = random.sample([i for i in range(len(questions))],config.TESTSET_SIZE)
+    dev_ids = dev_test_ids[:(config.TESTSET_SIZE/2)]
+    test_ids = dev_test_ids[(config.TESTSET_SIZE/2):]
+    filenames = ['train.utt', 'train.resp', 'dev.utt', 'dev.resp', 'test.utt', 'test.resp']
     files = []
     for filename in filenames:
         files.append(open(os.path.join(config.PROCESSED_PATH, filename),'wb'))
 
     for i in range(len(questions)):
-        if i in test_ids:
+        if i in dev_ids:
             files[2].write(questions[i] + '\n')
             files[3].write(answers[i] + '\n')
+        if i in test_ids:
+            files[4].write(questions[i] + '\n')
+            files[5].write(answers[i] + '\n')
         else:
             files[0].write(questions[i] + '\n')
             files[1].write(answers[i] + '\n')
+
+    for file in files:
+        file.close()
+
+
+def prepare_dataset_small(questions, answers):
+    # create path to store all the train & test encoder & decoder
+    make_dir(config.SMALL_DATASET_PATH)
+    sample_ids = random.sample([i for i in range(len(questions))],config.SMALL_DATASET_SIZE)
+    # random convos to create the test set
+    dev_test_ids = random.sample([i for i in range(len(questions))],config.SMALL_DATASET_TESTSET_SIZE)
+    dev_ids = dev_test_ids[:(config.SMALL_DATASET_TESTSET_SIZE/2)]
+    test_ids = dev_test_ids[(config.SMALL_DATASET_TESTSET_SIZE/2):]
+    filenames = ['train.utt', 'train.resp', 'dev.utt', 'dev.resp', 'test.utt', 'test.resp']
+    files = []
+    for filename in filenames:
+        files.append(open(os.path.join(config.SMALL_DATASET_PATH, filename),'wb'))
+
+    for i in range(len(questions)):
+        if i in sample_ids:
+            if i in dev_ids:
+                files[2].write(questions[i] + '\n')
+                files[3].write(answers[i] + '\n')
+            if i in test_ids:
+                files[4].write(questions[i] + '\n')
+                files[5].write(answers[i] + '\n')
+            else:
+                files[0].write(questions[i] + '\n')
+                files[1].write(answers[i] + '\n')
 
     for file in files:
         file.close()
@@ -107,9 +145,12 @@ def basic_tokenizer(line, normalize_digits=True):
             words.append(token)
     return words
 
-def build_vocab(filename, normalize_digits=True):
-    in_path = os.path.join(config.PROCESSED_PATH, filename)
-    out_path = os.path.join(config.PROCESSED_PATH, 'vocab.{}'.format(filename[-3:]))
+def build_vocab(path,filename, normalize_digits=True):
+    in_path = os.path.join(path, filename)
+    if (filename[-3:] == 'utt'):
+        out_path = os.path.join(path, 'vocab.{}'.format(filename[-3:]))
+    else:
+        out_path = os.path.join(path, 'vocab.{}'.format(filename[-4:]))
 
     vocab = {}
     with open(in_path, 'rb') as f:
@@ -121,11 +162,11 @@ def build_vocab(filename, normalize_digits=True):
 
     sorted_vocab = sorted(vocab, key=vocab.get, reverse=True)
     with open(out_path, 'wb') as f:
-        f.write('<pad>' + '\n')
-        f.write('<unk>' + '\n')
-        f.write('<s>' + '\n')
-        f.write('<\s>' + '\n') 
-        index = 4
+        # f.write('<pad>' + '\n')
+        # f.write('<unk>' + '\n')
+        # f.write('<s>' + '\n')
+        # f.write('<\s>' + '\n') 
+        index = 0
         for word in sorted_vocab:
             if vocab[word] < config.THRESHOLD:
                 with open('config.py', 'ab') as cf:
@@ -174,15 +215,18 @@ def prepare_raw_data():
     convos = get_convos()
     questions, answers = question_answers(id2line, convos)
     prepare_dataset(questions, answers)
+    prepare_dataset_small(questions, answers)
 
 def process_data():
     print('Preparing data to be model-ready ...')
-    build_vocab('train.enc')
-    build_vocab('train.dec')
-    token2id('train', 'enc')
-    token2id('train', 'dec')
-    token2id('test', 'enc')
-    token2id('test', 'dec')
+    build_vocab(config.PROCESSED_PATH,'train.utt')
+    build_vocab(config.SMALL_DATASET_PATH,'train.utt')
+    build_vocab(config.PROCESSED_PATH,'train.resp')
+    build_vocab(config.SMALL_DATASET_PATH,'train.resp')
+    # token2id('train', 'enc')
+    # token2id('train', 'dec')
+    # token2id('test', 'enc')
+    # token2id('test', 'dec')
 
 def load_data(enc_filename, dec_filename, max_training_size=None):
     encode_file = open(os.path.join(config.PROCESSED_PATH, enc_filename), 'rb')
@@ -247,5 +291,5 @@ def get_batch(data_bucket, bucket_id, batch_size=1):
     return batch_encoder_inputs, batch_decoder_inputs, batch_masks
 
 if __name__ == '__main__':
-    prepare_raw_data()
+    # prepare_raw_data()
     process_data()
