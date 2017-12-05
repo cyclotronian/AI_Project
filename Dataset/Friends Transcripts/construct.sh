@@ -1,12 +1,14 @@
 #!/bin/sh
 
-mkdir -p friends_dialog
+suffix="$1"
+folder=friends_dialog_$suffix
+mkdir -p $folder
 
-cp test.utt friends_dialog/test.utt
-cp test.resp friends_dialog/test.resp
-cp train.utt friends_dialog/train.utt
-cp train.resp friends_dialog/train.resp
-cp dev.utt friends_dialog/dev.utt
-cp dev.resp friends_dialog/dev.resp
-cp vocab friends_dialog/vocab.utt
-cp vocab friends_dialog/vocab.resp
+cp test.utt $folder/test.utt
+cp test.resp $folder/test.resp
+cp train.utt $folder/train.utt
+cp train.resp $folder/train.resp
+cp dev.utt $folder/dev.utt
+cp dev.resp $folder/dev.resp
+cp vocab $folder/vocab.utt
+cp vocab $folder/vocab.resp
