@@ -98,7 +98,7 @@ def prepare_dataset_small(questions, answers):
     make_dir(config.SMALL_DATASET_PATH)
     sample_ids = random.sample([i for i in range(len(questions))],config.SMALL_DATASET_SIZE)
     # random convos to create the test set
-    dev_test_ids = random.sample([i for i in range(len(questions))],config.SMALL_DATASET_TESTSET_SIZE)
+    dev_test_ids = random.sample(sample_ids,config.SMALL_DATASET_TESTSET_SIZE)
     dev_ids = dev_test_ids[:(config.SMALL_DATASET_TESTSET_SIZE/2)]
     test_ids = dev_test_ids[(config.SMALL_DATASET_TESTSET_SIZE/2):]
     filenames = ['train.utt', 'train.resp', 'dev.utt', 'dev.resp', 'test.utt', 'test.resp']
@@ -107,6 +107,8 @@ def prepare_dataset_small(questions, answers):
         files.append(open(os.path.join(config.SMALL_DATASET_PATH, filename),'wb'))
 
     for i in range(len(questions)):
+        if (questions[i].strip() == '' or answers[i].strip() == ''):
+            continue
         if i in sample_ids:
             if i in dev_ids:
                 files[2].write(questions[i] + '\n')
