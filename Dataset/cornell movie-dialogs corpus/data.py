@@ -29,7 +29,7 @@ def get_lines():
             parts = line.split(' +++$+++ ')
             if len(parts) == 5:
                 if parts[4][-1] == '\n':
-                    parts[4] = parts[4][:-1]
+                    parts[4] = unicode(parts[4][:-1], errors='ignore')
                 id2line[parts[0]] = parts[4]
     return id2line
 
@@ -291,5 +291,5 @@ def get_batch(data_bucket, bucket_id, batch_size=1):
     return batch_encoder_inputs, batch_decoder_inputs, batch_masks
 
 if __name__ == '__main__':
-    # prepare_raw_data()
+    prepare_raw_data()
     process_data()
