@@ -77,6 +77,8 @@ def prepare_dataset(questions, answers):
         files.append(open(os.path.join(config.PROCESSED_PATH, filename),'wb'))
 
     for i in range(len(questions)):
+        if (questions[i].strip() == '' or answers[i].strip() == ''):
+            continue
         if i in dev_ids:
             files[2].write(questions[i] + '\n')
             files[3].write(answers[i] + '\n')
