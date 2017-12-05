@@ -63766,7 +63766,10 @@
 <joey> thanks man. did you hear that, you guys? you're gonna get to stay here! and, and it's good, you know, 'cause, 'cause now you have a reason to come visit. 
 <chandler> i think there may be another reason. so, awkward hug or lame cool guy handshake? 
 <joey> uh, lame cool guy handshake, yeah.  
-< put a whole lot of extra philanges onboard, just in case.  
+< 
+<s> ma'am, i assure you, the plane is fine. 
+<s> and you fixed the philange? 
+<s> yes, the philange is fixed. as a matter of fact, we put a whole lot of extra philanges onboard, just in case.  
 <ross> where is she? 
 <phoebe> i don't see her. 
 <ross> rachel! rachel green! 
@@ -64342,7 +64345,10 @@
 <joey> thanks man. did you hear that, you guys? you're gonna get to stay here! and, and it's good, you know, 'cause, 'cause now you have a reason to come visit. 
 <chandler> i think there may be another reason. so, awkward hug or lame cool guy handshake? 
 <joey> uh, lame cool guy handshake, yeah.  
-< put a whole lot of extra philanges onboard, just in case.  
+< 
+<s> ma'am, i assure you, the plane is fine. 
+<s> and you fixed the philange? 
+<s> yes, the philange is fixed. as a matter of fact, we put a whole lot of extra philanges onboard, just in case.  
 <ross> where is she? 
 <phoebe> i don't see her. 
 <ross> rachel! rachel green! 
