@@ -1,0 +1,54 @@
+# log_file=cornell_full_attn/log_1512686440
+# Start step 125000, lr 1, Thu Dec  7 22:40:44 2017
+  global step 125100 lr 1 step-time 0.89s wps 3.89K ppl 11.86 gN 4.21 bleu 3.19
+  global step 125200 lr 1 step-time 0.89s wps 3.90K ppl 10.79 gN 4.36 bleu 3.19
+  global step 125300 lr 1 step-time 0.88s wps 3.97K ppl 9.77 gN 4.22 bleu 3.19
+  global step 125400 lr 1 step-time 0.87s wps 3.90K ppl 9.20 gN 4.44 bleu 3.19
+  global step 125500 lr 1 step-time 0.89s wps 3.97K ppl 8.90 gN 4.37 bleu 3.19
+  global step 125600 lr 1 step-time 0.89s wps 3.91K ppl 8.50 gN 4.50 bleu 3.19
+  global step 125700 lr 1 step-time 0.88s wps 3.97K ppl 8.15 gN 4.40 bleu 3.19
+  global step 125800 lr 1 step-time 0.88s wps 3.89K ppl 7.77 gN 4.68 bleu 3.19
+  global step 125900 lr 1 step-time 0.88s wps 3.91K ppl 7.76 gN 4.69 bleu 3.19
+  global step 126000 lr 1 step-time 0.88s wps 3.98K ppl 7.36 gN 4.46 bleu 3.19
+  global step 126100 lr 1 step-time 0.87s wps 3.90K ppl 7.15 gN 4.69 bleu 3.19
+  global step 126200 lr 1 step-time 0.89s wps 3.97K ppl 7.02 gN 4.54 bleu 3.19
+  global step 126300 lr 1 step-time 0.89s wps 3.91K ppl 6.88 gN 4.85 bleu 3.19
+  global step 126400 lr 1 step-time 0.87s wps 3.96K ppl 6.69 gN 4.48 bleu 3.19
+  global step 126500 lr 1 step-time 0.88s wps 3.90K ppl 6.46 gN 4.83 bleu 3.19
+  global step 126600 lr 1 step-time 0.87s wps 3.97K ppl 6.48 gN 4.81 bleu 3.19
+  global step 126700 lr 1 step-time 0.88s wps 3.91K ppl 6.14 gN 4.65 bleu 3.19
+  global step 126800 lr 1 step-time 0.88s wps 3.90K ppl 6.20 gN 4.83 bleu 3.19
+  global step 126900 lr 1 step-time 0.89s wps 3.98K ppl 6.09 gN 4.72 bleu 3.19
+  global step 127000 lr 1 step-time 0.86s wps 3.90K ppl 5.81 gN 4.76 bleu 3.19
+  global step 127100 lr 1 step-time 0.89s wps 3.97K ppl 5.84 gN 4.69 bleu 3.19
+  global step 127200 lr 1 step-time 0.89s wps 3.92K ppl 5.82 gN 5.02 bleu 3.19
+  global step 127300 lr 1 step-time 0.87s wps 3.96K ppl 5.70 gN 4.70 bleu 3.19
+  global step 127400 lr 1 step-time 0.88s wps 3.91K ppl 5.52 gN 4.96 bleu 3.19
+  global step 127500 lr 1 step-time 0.88s wps 3.91K ppl 5.57 gN 4.91 bleu 3.19
+  global step 127600 lr 1 step-time 0.88s wps 3.97K ppl 5.39 gN 4.72 bleu 3.19
+  global step 127700 lr 1 step-time 0.87s wps 3.90K ppl 5.31 gN 4.83 bleu 3.19
+  global step 127800 lr 1 step-time 0.89s wps 3.97K ppl 5.30 gN 4.77 bleu 3.19
+  global step 127900 lr 1 step-time 0.89s wps 3.91K ppl 5.23 gN 4.95 bleu 3.19
+  global step 128000 lr 1 step-time 0.87s wps 3.97K ppl 5.15 gN 4.80 bleu 3.19
+  global step 128100 lr 1 step-time 0.88s wps 3.90K ppl 5.10 gN 5.06 bleu 3.19
+  global step 128200 lr 1 step-time 0.87s wps 3.96K ppl 5.08 gN 4.97 bleu 3.19
+  global step 128300 lr 1 step-time 0.89s wps 3.92K ppl 4.89 gN 4.77 bleu 3.19
+  global step 128400 lr 1 step-time 0.88s wps 3.90K ppl 4.91 gN 5.05 bleu 3.19
+  global step 128500 lr 1 step-time 0.88s wps 3.97K ppl 4.86 gN 4.77 bleu 3.19
+  global step 128600 lr 1 step-time 0.87s wps 3.90K ppl 4.73 gN 4.97 bleu 3.19
+  global step 128700 lr 1 step-time 0.88s wps 3.97K ppl 4.74 gN 4.78 bleu 3.19
+  global step 128800 lr 1 step-time 0.88s wps 3.90K ppl 4.75 gN 5.04 bleu 3.19
+  global step 128900 lr 1 step-time 0.88s wps 3.98K ppl 4.73 gN 4.96 bleu 3.19
+  global step 129000 lr 1 step-time 0.88s wps 3.90K ppl 4.53 gN 4.98 bleu 3.19
+  global step 129100 lr 1 step-time 0.88s wps 3.91K ppl 4.62 gN 5.09 bleu 3.19
+  global step 129200 lr 1 step-time 0.88s wps 3.98K ppl 4.51 gN 4.87 bleu 3.19
+  global step 129300 lr 1 step-time 0.87s wps 3.89K ppl 4.43 gN 4.95 bleu 3.19
+  global step 129400 lr 1 step-time 0.89s wps 3.97K ppl 4.48 gN 4.95 bleu 3.19
+  global step 129500 lr 1 step-time 0.87s wps 3.91K ppl 4.37 gN 5.02 bleu 3.19
+  global step 129600 lr 1 step-time 0.88s wps 3.96K ppl 4.33 gN 4.87 bleu 3.19
+  global step 129700 lr 1 step-time 0.89s wps 3.91K ppl 4.37 gN 5.16 bleu 3.19
+  global step 129800 lr 1 step-time 0.87s wps 3.97K ppl 4.34 gN 5.10 bleu 3.19
+  global step 129900 lr 1 step-time 0.89s wps 3.91K ppl 4.25 gN 4.90 bleu 3.19
+  global step 130000 lr 1 step-time 0.88s wps 3.91K ppl 4.20 gN 5.08 bleu 3.19
+# Final, step 130000 lr 1 step-time 0.00 wps 0.00K ppl 0.00, dev ppl 757.69, dev bleu 0.0, test ppl 1246.45, test bleu 0.0, Thu Dec  7 23:56:09 2017
+# Best bleu, step 74000 step-time 0.00 wps 0.00K, dev ppl 206.00, dev bleu 0.0, test ppl 218.50, test bleu 0.0, Thu Dec  7 23:56:11 2017
